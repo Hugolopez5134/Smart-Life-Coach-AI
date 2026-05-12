@@ -1,7 +1,9 @@
+import os
 import requests
 from langchain_core.tools import tool
 
-FASTAPI_URL = "http://localhost:8000"
+# URL del backend FastAPI (override por env var para Docker Compose). Default = comportamiento local.
+FASTAPI_URL = os.getenv("FASTAPI_URL", "http://localhost:8000")
 
 def get_tools(token: str):
     headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}

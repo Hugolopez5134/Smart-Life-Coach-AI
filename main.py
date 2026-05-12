@@ -1,4 +1,5 @@
 import json
+import traceback
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -41,4 +42,7 @@ async def generar_respuesta(payload: ChatPayload):
         }
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        # Imprime el traceback completo a stdout para que aparezca en `docker compose logs`
+        print("[AI-component] ❌ Excepción procesando /chat:", flush=True)
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"{type(e).__name__}: {e}")
